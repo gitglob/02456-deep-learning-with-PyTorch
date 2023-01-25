@@ -1,4 +1,6 @@
-# Training results
+# 7.1
+
+## Training results
 Everything is ran for 20 epochs for practicality.
 
 - Adam and BCE seem to provide much better results
