@@ -50,6 +50,8 @@ class DQN(nn.Module):
     
     def forward(self, x):
         # (batch_size, 60, 60, 3)
+        if x.dim() == 3:
+            x = x.unsqueeze(0)
         x = x.permute(0, 3, 1, 2)
         # (batch_size, 3, 60, 60)
         x = self.conv_layer(x) # Apply the Convolutional layer to the input

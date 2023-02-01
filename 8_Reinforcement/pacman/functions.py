@@ -50,7 +50,9 @@ def train(num_episodes, episode_limit, learning_rate, gamma, val_freq, epsilon_s
             # initial_state[1]: {'lives': 3, 'episode_frame_number': 0, 'frame_number': 29997}
             s = initial_state[0]
             # print("Resetting environment...")
+            print("Iterating over episode limit...")
             for j in range(episode_limit):
+                print(f"Sub-episode: {j}")
                 # select action with epsilon-greedy strategy
                 if np.random.rand() < epsilon:
 #                     print("Exploring...")
@@ -58,7 +60,9 @@ def train(num_episodes, episode_limit, learning_rate, gamma, val_freq, epsilon_s
                 else:
 #                     print("Exploiting...")
                     with torch.no_grad():
-                        a = policy_dqn(s)
+                        s_in = np.array(prepare_img(s))
+                        s_in = torch.from_numpy(s_in).float().to(device)
+                        a = policy_dqn(s_in)
                         a = a.argmax().item()
                 # perform action
                 # print("Performing action...")
@@ -87,12 +91,12 @@ def train(num_episodes, episode_limit, learning_rate, gamma, val_freq, epsilon_s
                     # (64, 60, 60, 3)
                     # do forward pass of batch
                     policy_dqn.optimizer.zero_grad()
-                    print("Forward pass...")
+                    # print("Forward pass...")
                     Q = policy_dqn(ss)
                     # use target network to compute target Q-values
                     with torch.no_grad():
                         # use target net
-                        print("Compute target values...")
+                        # print("Compute target values...")
                         Q1 = target_dqn(ss)
                     # compute target for each sampled experience
                     q_targets = Q.clone()

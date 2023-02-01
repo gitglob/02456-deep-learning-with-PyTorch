@@ -58,7 +58,7 @@ def pacman(game):
     dr = 0.99 # discount rate
     tau = 0.01 # target network update rate
     vf = 100 # validation frequency
-    eps_start = 1 # starting epsilon
+    eps_start = 0.8 # starting epsilon
 
     # create environment
     env = gym.make(game)
